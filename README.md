@@ -9,13 +9,9 @@ This is a static website hosted on **GitHub Pages**, where I share:
 
 Built with simplicity and minimalism in mind.
 
----
-
 ## Visit the Site
 
 [Click Here to View](https://ozcodx.github.io)
-
----
 
 ## About
 
