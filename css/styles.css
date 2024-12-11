@@ -12,6 +12,21 @@
  */
 
 :root {
+  --bs-primary: #121212;
+  --bs-secondary: #1E1E1E;
+  --bs-primary-rgb: 18, 18, 18;
+  --bs-secondary-rgb: 30, 30, 30;
+  --text-main: #D9D9D9;
+  --text-main-rgb: 217, 217, 217; 
+  --text-secondary: #A3A3A3;
+  --text-secondary-rgb: 163, 163, 163;
+  --details-highlight: #2E7D32;
+  --details-highlight-rgb: 46, 125, 50;
+  --hover: #0F2E10;
+  --hover-rgb: 15, 46, 16;
+  --border: #444444;
+  --border-rgb: 68, 68, 68;
+
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
@@ -30,21 +45,23 @@
   --bs-gray-light-2: #ced4da;
   --bs-gray-dark: #343a40;
   --bs-gray-dark-2: #212529;
-  --bs-primary: #125112;
-  --bs-secondary: #0F2E10;
+
+
+  
   --bs-success: var(--bs-green);
   --bs-info: var(--bs-cyan);
   --bs-warning: var(--bs-yellow);
   --bs-danger: var(--bs-red);
   --bs-light: #f8f9fa;
   --bs-dark: var(--bs-gray-2);
-  --bs-primary-rgb: 18, 81, 18;
-  --bs-secondary-rgb: 15, 46, 16;
+
+
+  
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
   --bs-danger-rgb: 220, 53, 69;
-  --bs-light-rgb: 248, 249, 250;
+  --bs-light-rgb: 189, 189, 189;
   --bs-dark-rgb: 33, 37, 41;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
@@ -57,7 +74,7 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: var(--bs-gray-2);
+  --bs-body-color: var(--text-main);
   --bs-body-bg: var(--bs-white);
   --bs-border-width: 1px;
   --bs-border-style: solid;
@@ -73,7 +90,7 @@
   --bs-link-hover-color: #b88645;
   --bs-code-color: var(--bs-pink);
 
-  --bs-highlight-bg: #74bf67;
+  --bs-highlight-bg: var(--bs-secondary);
   --bs-element-bg: #faeddd;
   --bs-element-active-bg: #e1d5c7;
   --bs-element-striped-bg: #eee1d2;
@@ -110,6 +127,7 @@
   --bs-element-dark-active-bg: #373b3e;
   --bs-element-dark-striped-bg: #2c3034;
   --bs-element-dark-hover-bg: #323539;
+
 
 }
 
@@ -2842,7 +2860,7 @@ textarea.form-control-lg {
 }
 .btn:hover {
   color: var(--bs-btn-hover-color);
-  background-color: var(--bs-btn-hover-bg);
+  background-color: var(--hover);
   border-color: var(--bs-btn-hover-border-color);
 }
 .btn-check + .btn:hover {
@@ -2852,7 +2870,7 @@ textarea.form-control-lg {
 }
 .btn:focus-visible {
   color: var(--bs-btn-hover-color);
-  background-color: var(--bs-btn-hover-bg);
+  background-color: var(--hover);
   border-color: var(--bs-btn-hover-border-color);
   outline: 0;
   box-shadow: var(--bs-btn-focus-box-shadow);
@@ -2879,16 +2897,16 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  --bs-btn-color: var(--bs-black);
+  --bs-btn-color: var(--text-secondary);
   --bs-btn-bg: var(--bs-primary);
   --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: #eab46f;
-  --bs-btn-hover-border-color: #e9b067;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--hover);
+  --bs-btn-hover-border-color: var(--border);
   --bs-btn-focus-shadow-rgb: 196, 142, 73;
   --bs-btn-active-color: var(--bs-black);
   --bs-btn-active-bg: #ebb978;
-  --bs-btn-active-border-color: #e9b067;
+  --bs-btn-active-border-color: var(--border);
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: var(--bs-black);
   --bs-btn-disabled-bg: var(--bs-primary);
@@ -2899,8 +2917,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: #2F170F;
   --bs-btn-border-color: #2F170F;
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #28140d;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #28140d;
   --bs-btn-hover-border-color: #26120c;
   --bs-btn-focus-shadow-rgb: 78, 58, 51;
   --bs-btn-active-color: var(--bs-white);
@@ -2916,8 +2934,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bs-green);
   --bs-btn-border-color: var(--bs-green);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #157347;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #157347;
   --bs-btn-hover-border-color: #146c43;
   --bs-btn-focus-shadow-rgb: 60, 153, 110;
   --bs-btn-active-color: var(--bs-white);
@@ -2933,8 +2951,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-black);
   --bs-btn-bg: var(--bs-cyan);
   --bs-btn-border-color: var(--bs-cyan);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: #31d2f2;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #31d2f2;
   --bs-btn-hover-border-color: #25cff2;
   --bs-btn-focus-shadow-rgb: 11, 172, 204;
   --bs-btn-active-color: var(--bs-black);
@@ -2950,8 +2968,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-black);
   --bs-btn-bg: var(--bs-yellow);
   --bs-btn-border-color: var(--bs-yellow);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: #ffca2c;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #ffca2c;
   --bs-btn-hover-border-color: #ffc720;
   --bs-btn-focus-shadow-rgb: 217, 164, 6;
   --bs-btn-active-color: var(--bs-black);
@@ -2967,8 +2985,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bs-red);
   --bs-btn-border-color: var(--bs-red);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #bb2d3b;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #bb2d3b;
   --bs-btn-hover-border-color: #b02a37;
   --bs-btn-focus-shadow-rgb: 225, 83, 97;
   --bs-btn-active-color: var(--bs-white);
@@ -2984,8 +3002,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-black);
   --bs-btn-bg: var(--bs-light);
   --bs-btn-border-color: var(--bs-light);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: #d3d4d5;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #d3d4d5;
   --bs-btn-hover-border-color: #c6c7c8;
   --bs-btn-focus-shadow-rgb: 211, 212, 213;
   --bs-btn-active-color: var(--bs-black);
@@ -3001,8 +3019,8 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: var(--bs-gray-2);
   --bs-btn-border-color: var(--bs-gray-2);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #424649;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #424649;
   --bs-btn-hover-border-color: var(--bs-element-dark-active-bg);
   --bs-btn-focus-shadow-rgb: 66, 70, 73;
   --bs-btn-active-color: var(--bs-white);
@@ -3017,8 +3035,8 @@ textarea.form-control-lg {
 .btn-outline-primary {
   --bs-btn-color: var(--bs-primary);
   --bs-btn-border-color: var(--bs-primary);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-primary);
   --bs-btn-hover-border-color: var(--bs-primary);
   --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
   --bs-btn-active-color: var(--bs-black);
@@ -3034,8 +3052,8 @@ textarea.form-control-lg {
 .btn-outline-secondary {
   --bs-btn-color: #2F170F;
   --bs-btn-border-color: #2F170F;
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #2F170F;
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: #2F170F;
   --bs-btn-hover-border-color: #2F170F;
   --bs-btn-focus-shadow-rgb: var(--bs-secondary-rgb);
   --bs-btn-active-color: var(--bs-white);
@@ -3051,8 +3069,8 @@ textarea.form-control-lg {
 .btn-outline-success {
   --bs-btn-color: var(--bs-green);
   --bs-btn-border-color: var(--bs-green);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: var(--bs-green);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-green);
   --bs-btn-hover-border-color: var(--bs-green);
   --bs-btn-focus-shadow-rgb: 25, 135, 84;
   --bs-btn-active-color: var(--bs-white);
@@ -3068,8 +3086,8 @@ textarea.form-control-lg {
 .btn-outline-info {
   --bs-btn-color: var(--bs-cyan);
   --bs-btn-border-color: var(--bs-cyan);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: var(--bs-cyan);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-cyan);
   --bs-btn-hover-border-color: var(--bs-cyan);
   --bs-btn-focus-shadow-rgb: 13, 202, 240;
   --bs-btn-active-color: var(--bs-black);
@@ -3085,8 +3103,8 @@ textarea.form-control-lg {
 .btn-outline-warning {
   --bs-btn-color: var(--bs-yellow);
   --bs-btn-border-color: var(--bs-yellow);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: var(--bs-yellow);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-yellow);
   --bs-btn-hover-border-color: var(--bs-yellow);
   --bs-btn-focus-shadow-rgb: 255, 193, 7;
   --bs-btn-active-color: var(--bs-black);
@@ -3102,8 +3120,8 @@ textarea.form-control-lg {
 .btn-outline-danger {
   --bs-btn-color: var(--bs-red);
   --bs-btn-border-color: var(--bs-red);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: var(--bs-red);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-red);
   --bs-btn-hover-border-color: var(--bs-red);
   --bs-btn-focus-shadow-rgb: 220, 53, 69;
   --bs-btn-active-color: var(--bs-white);
@@ -3119,10 +3137,10 @@ textarea.form-control-lg {
 .btn-outline-light {
   --bs-btn-color: var(--bs-light);
   --bs-btn-border-color: var(--bs-light);
-  --bs-btn-hover-color: var(--bs-black);
-  --bs-btn-hover-bg: var(--bs-light);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-light);
   --bs-btn-hover-border-color: var(--bs-light);
-  --bs-btn-focus-shadow-rgb: 248, 249, 250;
+  --bs-btn-focus-shadow-rgb: var(--bs-light-rgb);
   --bs-btn-active-color: var(--bs-black);
   --bs-btn-active-bg: var(--bs-light);
   --bs-btn-active-border-color: var(--bs-light);
@@ -3136,8 +3154,8 @@ textarea.form-control-lg {
 .btn-outline-dark {
   --bs-btn-color: var(--bs-gray-2);
   --bs-btn-border-color: var(--bs-gray-2);
-  --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: var(--bs-gray-2);
+  --bs-btn-hover-color: var(--text-secondary)
+  --hover: var(--bs-gray-2);
   --bs-btn-hover-border-color: var(--bs-gray-2);
   --bs-btn-focus-shadow-rgb: 33, 37, 41;
   --bs-btn-active-color: var(--bs-white);
@@ -3155,7 +3173,7 @@ textarea.form-control-lg {
   --bs-btn-color: var(--bs-link-color);
   --bs-btn-bg: transparent;
   --bs-btn-border-color: transparent;
-  --bs-btn-hover-color: var(--bs-link-hover-color);
+  --bs-btn-hover-color: var(--text-secondary)
   --bs-btn-hover-border-color: transparent;
   --bs-btn-active-color: var(--bs-link-hover-color);
   --bs-btn-active-border-color: transparent;
@@ -6721,7 +6739,7 @@ textarea.form-control-lg {
 
 .text-bg-light {
   color: var(--bs-black) !important;
-  background-color: RGBA(248, 249, 250, var(--bs-bg-opacity, 1)) !important;
+  background-color: RGBA(var(--bs-light-rgb), var(--bs-bg-opacity, 1)) !important;
 }
 
 .text-bg-dark {
@@ -10871,7 +10889,7 @@ p {
 }
 
 .text-faded {
-  color: #74bf67;
+  color: var(--text-secondary);
 }
 
 .site-heading {
@@ -10912,7 +10930,7 @@ p {
 }
 
 .bg-faded {
-  background-color: #74bf67;
+  background-color: var(--bs-secondary);
 }
 
 .btn-xl {
@@ -10929,7 +10947,7 @@ p {
   font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 #mainNav .navbar-brand {
-  color: var(--bs-primary);
+  color: var(--text-main);
 }
 #mainNav .navbar-nav .nav-item .nav-link {
   color: rgba(255, 255, 255, 0.7);
