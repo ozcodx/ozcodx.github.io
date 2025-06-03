@@ -9,7 +9,11 @@ interface BlogFormData {
   tags: string;
 }
 
-export const BlogForm = () => {
+interface BlogFormProps {
+  onLogout: () => void;
+}
+
+export const BlogForm = ({ onLogout }: BlogFormProps) => {
   const [formData, setFormData] = useState<BlogFormData>({
     title: '',
     abstract: '',
@@ -180,6 +184,15 @@ export const BlogForm = () => {
             disabled={loading}
           >
             Limpiar
+          </button>
+
+          <button 
+            type="button" 
+            className="logout-button"
+            onClick={onLogout}
+            disabled={loading}
+          >
+            Cerrar Sesión
           </button>
         </div>
       </form>

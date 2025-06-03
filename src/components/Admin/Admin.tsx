@@ -15,6 +15,22 @@ export const Admin = () => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    // Verificar periódicamente si la sesión ha expirado
+    if (isAuthenticated) {
+      const checkSession = () => {
+        if (!blogService.isAuthenticated()) {
+          setIsAuthenticated(false);
+        }
+      };
+
+      // Verificar cada minuto
+      const interval = setInterval(checkSession, 60000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated]);
+
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
   };
@@ -38,15 +54,10 @@ export const Admin = () => {
 
   return (
     <div className="admin-container">
-      <header className="admin-header">
-        <h1>Panel de Administración</h1>
-        <button onClick={handleLogout} className="logout-button">
-          Cerrar Sesión
-        </button>
-      </header>
+
       
       <main className="admin-content">
-        <BlogForm />
+        <BlogForm onLogout={handleLogout} />
       </main>
     </div>
   );

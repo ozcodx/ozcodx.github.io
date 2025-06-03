@@ -30,6 +30,7 @@ export interface BlogApiResponse {
 
 class BlogService {
   private token: string | null = null;
+  private readonly SESSION_DURATION = 12 * 60 * 60 * 1000; // 12 horas en milisegundos
 
   // Login y obtener token
   async login(credentials: LoginCredentials): Promise<string> {
@@ -49,8 +50,12 @@ class BlogService {
       const data = await response.json();
       this.token = data.token;
       
-      // Guardar token en localStorage para persistencia
-      localStorage.setItem('blog_admin_token', data.token);
+      // Guardar token y timestamp en localStorage para persistencia
+      const loginData = {
+        token: data.token,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('blog_admin_session', JSON.stringify(loginData));
       
       return data.token;
     } catch (error) {
@@ -62,22 +67,76 @@ class BlogService {
   // Logout
   logout(): void {
     this.token = null;
+    localStorage.removeItem('blog_admin_session');
+    // Mantener compatibilidad con el token anterior
     localStorage.removeItem('blog_admin_token');
   }
 
-  // Verificar si hay un token guardado
-  loadStoredToken(): boolean {
-    const storedToken = localStorage.getItem('blog_admin_token');
-    if (storedToken) {
-      this.token = storedToken;
+  // Verificar si la sesión ha expirado
+  private isSessionExpired(): boolean {
+    const sessionData = localStorage.getItem('blog_admin_session');
+    if (!sessionData) return true;
+
+    try {
+      const { timestamp } = JSON.parse(sessionData);
+      const now = Date.now();
+      return (now - timestamp) > this.SESSION_DURATION;
+    } catch {
       return true;
     }
+  }
+
+  // Verificar si hay un token guardado y válido
+  loadStoredToken(): boolean {
+    // Primero verificar el nuevo formato con timestamp
+    const sessionData = localStorage.getItem('blog_admin_session');
+    if (sessionData) {
+      try {
+        const { token, timestamp } = JSON.parse(sessionData);
+        const now = Date.now();
+        
+        if ((now - timestamp) <= this.SESSION_DURATION) {
+          this.token = token;
+          return true;
+        } else {
+          // Sesión expirada, limpiar
+          this.logout();
+          return false;
+        }
+      } catch {
+        // Datos corruptos, limpiar
+        this.logout();
+        return false;
+      }
+    }
+
+    // Compatibilidad con el formato anterior (sin timestamp)
+    const oldToken = localStorage.getItem('blog_admin_token');
+    if (oldToken) {
+      // Migrar al nuevo formato asumiendo que acaba de iniciar sesión
+      this.token = oldToken;
+      const loginData = {
+        token: oldToken,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('blog_admin_session', JSON.stringify(loginData));
+      localStorage.removeItem('blog_admin_token');
+      return true;
+    }
+
     return false;
   }
 
-  // Verificar si está autenticado
+  // Verificar si está autenticado y la sesión no ha expirado
   isAuthenticated(): boolean {
-    return this.token !== null;
+    if (!this.token) return false;
+    
+    if (this.isSessionExpired()) {
+      this.logout();
+      return false;
+    }
+    
+    return true;
   }
 
   // Obtener todas las entradas del blog
