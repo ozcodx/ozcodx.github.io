@@ -28,6 +28,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
         <Link to="/cv" onClick={handleLinkClick}>CV</Link>
         <Link to="/blog" onClick={handleLinkClick}>BLOG</Link>
         <Link to="/projects" onClick={handleLinkClick}>PROY</Link>
+        <Link to="/admin" onClick={handleLinkClick}>ADMIN</Link>
       </nav>
       <button 
         className="menu-toggle"
