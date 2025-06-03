@@ -68,6 +68,64 @@
     flex: 1;
   }
 
+  // Estados de loading, error y empty
+  .blog-loading,
+  .blog-error,
+  .blog-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #fff;
+
+    h2 {
+      color: #0F0;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .blog-error {
+    .error-message {
+      color: #ff6b6b;
+      margin-bottom: 2rem;
+    }
+
+    .retry-button {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #0F0;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+
+      &:hover {
+        background-color: rgba(0, 255, 0, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      }
+    }
+  }
+
+  .blog-loading {
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      animation: pulse 2s infinite;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
   @media (max-width: $breakpoint-mobile) {
     padding: 1rem;
 

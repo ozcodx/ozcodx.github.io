@@ -1,0 +1,166 @@
+@use '../../styles/variables' as *;
+
+.blog-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h2 {
+    color: #0F0;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    font-family: 'Courier New', monospace;
+    text-align: center;
+  }
+}
+
+.blog-form {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+
+  .form-group {
+    margin-bottom: 2rem;
+
+    label {
+      display: block;
+      color: #0F0;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+      resize: vertical;
+
+      &:focus {
+        outline: none;
+        border-color: #0F0;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    textarea {
+      min-height: 100px;
+      line-height: 1.5;
+    }
+  }
+
+  .error-message {
+    background-color: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff6b6b;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+  }
+
+  .success-message {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    color: #0F0;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+
+    button {
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+      border: 1px solid;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+
+    .submit-button {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #0F0;
+      border-color: rgba(0, 255, 0, 0.3);
+
+      &:hover:not(:disabled) {
+        background-color: rgba(0, 255, 0, 0.2);
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+      }
+    }
+
+    .reset-button {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1rem;
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+} 

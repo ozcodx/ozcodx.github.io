@@ -1,0 +1,129 @@
+@use '../../styles/variables' as *;
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+
+  .login-form-wrapper {
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    border-radius: 15px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    max-width: 400px;
+    width: 100%;
+
+    h1 {
+      color: #0F0;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      font-family: 'Courier New', monospace;
+    }
+  }
+
+  .login-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        color: #0F0;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        font-family: 'Courier New', monospace;
+
+        &:focus {
+          outline: none;
+          border-color: #0F0;
+          box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        &[readonly] {
+          background-color: rgba(0, 0, 0, 0.5);
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+
+    .error-message {
+      background-color: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      color: #ff6b6b;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 1rem;
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #0F0;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+
+      &:hover:not(:disabled) {
+        background-color: rgba(0, 255, 0, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1rem;
+
+    .login-form-wrapper {
+      padding: 2rem;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+} 
