@@ -23,8 +23,9 @@ export interface BlogApiResponse {
   abstract: string;
   content: string;
   tags: string[];
-  created_at: string;
-  updated_at: string;
+  date: string | { $date: { $numberLong: string } } | number; // Puede ser string ISO, objeto MongoDB, o timestamp
+  created_at?: string; // Opcional por compatibilidad
+  updated_at?: string; // Opcional por compatibilidad
 }
 
 class BlogService {
@@ -132,19 +133,52 @@ class BlogService {
     // Validar y procesar la fecha
     let dateString = '';
     try {
-      if (apiResponse.created_at) {
-        const date = new Date(apiResponse.created_at);
-        // Verificar si la fecha es válida
-        if (!isNaN(date.getTime())) {
-          dateString = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+      if (apiResponse.date) {
+        if (typeof apiResponse.date === 'string') {
+          // Si ya es un string en formato ISO, intentar parsearlo
+          const date = new Date(apiResponse.date);
+          if (!isNaN(date.getTime())) {
+            dateString = date.toISOString().split('T')[0];
+          } else {
+            console.warn(`Invalid date string for blog entry ${apiResponse.slug}: ${apiResponse.date}`);
+            dateString = new Date().toISOString().split('T')[0];
+          }
+        } else if (typeof apiResponse.date === 'object' && apiResponse.date.$date) {
+          // Formato MongoDB: { $date: { $numberLong: "1748975155359" } }
+          const timestamp = parseInt(apiResponse.date.$date.$numberLong, 10);
+          const date = new Date(timestamp);
+          
+          if (!isNaN(date.getTime())) {
+            dateString = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+          } else {
+            console.warn(`Invalid MongoDB date for blog entry ${apiResponse.slug}: ${apiResponse.date}`);
+            dateString = new Date().toISOString().split('T')[0];
+          }
+        } else if (typeof apiResponse.date === 'number') {
+          // Si es un timestamp directo
+          const date = new Date(apiResponse.date);
+          if (!isNaN(date.getTime())) {
+            dateString = date.toISOString().split('T')[0];
+          } else {
+            console.warn(`Invalid timestamp for blog entry ${apiResponse.slug}: ${apiResponse.date}`);
+            dateString = new Date().toISOString().split('T')[0];
+          }
         } else {
-          // Si la fecha no es válida, usar la fecha actual
-          console.warn(`Invalid date for blog entry ${apiResponse.slug}: ${apiResponse.created_at}`);
+          console.warn(`Unknown date format for blog entry ${apiResponse.slug}:`, apiResponse.date);
+          dateString = new Date().toISOString().split('T')[0];
+        }
+      } else if (apiResponse.created_at) {
+        // Fallback al campo created_at si existe
+        const date = new Date(apiResponse.created_at);
+        if (!isNaN(date.getTime())) {
+          dateString = date.toISOString().split('T')[0];
+        } else {
+          console.warn(`Invalid created_at for blog entry ${apiResponse.slug}: ${apiResponse.created_at}`);
           dateString = new Date().toISOString().split('T')[0];
         }
       } else {
-        // Si no hay fecha, usar la fecha actual
-        console.warn(`Missing date for blog entry ${apiResponse.slug}`);
+        // Si no hay ninguna fecha, usar la fecha actual
+        console.warn(`No date field found for blog entry ${apiResponse.slug}`);
         dateString = new Date().toISOString().split('T')[0];
       }
     } catch (error) {

@@ -2,13 +2,14 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { BlogEntry } from './BlogEntry';
 import { BlogEntryType } from './types';
 import { blogService } from '../../services/blogService';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Blog.scss';
 
 export const Blog = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const entryId = searchParams.get('id');
+  const blogContentRef = useRef<HTMLDivElement>(null);
   
   const [entries, setEntries] = useState<BlogEntryType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,11 +29,6 @@ export const Blog = () => {
         );
         
         setEntries(sortedEntries);
-        
-        // Si no hay entryId en la URL y hay entradas, navegar a la primera
-        if (!entryId && sortedEntries.length > 0) {
-          navigate(`/blog?id=${sortedEntries[0].id}`, { replace: true });
-        }
       } catch (err) {
         console.error('Error loading blog entries:', err);
         setError('Error al cargar las entradas del blog. Por favor, intenta de nuevo más tarde.');
@@ -42,7 +38,38 @@ export const Blog = () => {
     };
 
     loadEntries();
-  }, [entryId, navigate]);
+  }, []); // Solo cargar una vez al montar el componente
+
+  // Efecto separado para manejar la navegación automática a la primera entrada
+  useEffect(() => {
+    // Si no hay entryId en la URL y hay entradas, navegar a la primera
+    if (!entryId && entries.length > 0) {
+      navigate(`/blog?id=${entries[0].id}`, { replace: true });
+    }
+  }, [entryId, entries, navigate]);
+
+  // Efecto para hacer scroll al inicio cuando cambia la entrada seleccionada
+  useEffect(() => {
+    if (entryId) {
+      // Opción 1: Scroll hacia el contenido del blog con offset para el header
+      if (blogContentRef.current) {
+        const element = blogContentRef.current;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - 100; // Offset de 100px para el header
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      } else {
+        // Opción 2: Scroll hacia la parte superior de la página
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [entryId]);
   
   // Encontrar la entrada actual o usar la primera como fallback
   const currentEntry = entries.find(e => e.id === entryId) || entries[0];
@@ -117,7 +144,7 @@ export const Blog = () => {
             ))}
           </ul>
         </div>
-        <div className="blog-content">
+        <div className="blog-content" ref={blogContentRef}>
           {currentEntry && <BlogEntry entry={currentEntry} />}
         </div>
       </div>
