@@ -14,6 +14,7 @@ export interface CreateBlogEntryRequest {
   abstract: string;
   content: string;
   tags: string[];
+  date?: string; // Fecha opcional en formato ISO (YYYY-MM-DD)
 }
 
 export interface BlogApiResponse {

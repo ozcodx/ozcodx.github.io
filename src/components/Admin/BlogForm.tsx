@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { blogService, CreateBlogEntryRequest } from '../../services/blogService';
+import { HtmlEditor } from './HtmlEditor';
+import { getCurrentDateISO } from '../../utils/dateUtils';
 import './BlogForm.scss';
 
 interface BlogFormData {
@@ -7,6 +9,7 @@ interface BlogFormData {
   abstract: string;
   content: string;
   tags: string;
+  date: string;
 }
 
 interface BlogFormProps {
@@ -18,7 +21,8 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
     title: '',
     abstract: '',
     content: '',
-    tags: ''
+    tags: '',
+    date: getCurrentDateISO() // Fecha actual por defecto
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -48,7 +52,10 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
       if (!formData.title.trim()) {
         throw new Error('El título es requerido');
       }
-      if (!formData.content.trim()) {
+      
+      // Validar contenido HTML (remover tags HTML para verificar si hay contenido real)
+      const contentText = formData.content.replace(/<[^>]*>/g, '').trim();
+      if (!contentText) {
         throw new Error('El contenido es requerido');
       }
 
@@ -61,12 +68,19 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);
 
+      // Generar abstract automático si está vacío
+      let abstract = formData.abstract.trim();
+      if (!abstract || abstract.replace(/<[^>]*>/g, '').trim() === '') {
+        abstract = `<p>Resumen de: ${formData.title.trim()}</p>`;
+      }
+
       const blogEntry: CreateBlogEntryRequest = {
         slug,
         title: formData.title.trim(),
-        abstract: formData.abstract.trim() || `<p>Resumen de: ${formData.title.trim()}</p>`,
+        abstract,
         content: formData.content.trim(),
-        tags
+        tags,
+        date: formData.date
       };
 
       await blogService.createBlogEntry(blogEntry);
@@ -78,7 +92,8 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         title: '',
         abstract: '',
         content: '',
-        tags: ''
+        tags: '',
+        date: getCurrentDateISO()
       });
 
     } catch (err) {
@@ -95,7 +110,8 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
       title: '',
       abstract: '',
       content: '',
-      tags: ''
+      tags: '',
+      date: getCurrentDateISO()
     });
     setSuccess(false);
     setError(null);
@@ -120,27 +136,40 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="abstract">Resumen (Abstract)</label>
-          <textarea
-            id="abstract"
-            value={formData.abstract}
-            onChange={handleInputChange('abstract')}
+          <label htmlFor="date">Fecha de Publicación *</label>
+          <input
+            type="date"
+            id="date"
+            value={formData.date}
+            onChange={handleInputChange('date')}
+            required
             disabled={loading}
-            placeholder="Resumen de la entrada (HTML permitido). Si se deja vacío, se generará automáticamente."
-            rows={4}
+          />
+          <small className="field-help">
+            Esta fecha aparecerá como la fecha de publicación de la entrada en el blog.
+          </small>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="abstract">Resumen</label>
+          <HtmlEditor
+            value={formData.abstract}
+            onChange={(value) => setFormData(prev => ({ ...prev, abstract: value }))}
+            disabled={loading}
+            placeholder="Resumen de la entrada. Si se deja vacío, se generará automáticamente."
+            height="150px"
+            simple={true}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="content">Contenido *</label>
-          <textarea
-            id="content"
+          <HtmlEditor
             value={formData.content}
-            onChange={handleInputChange('content')}
-            required
+            onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
             disabled={loading}
-            placeholder="Contenido completo de la entrada (HTML permitido)"
-            rows={15}
+            placeholder="Contenido completo de la entrada"
+            height="400px"
           />
         </div>
 
