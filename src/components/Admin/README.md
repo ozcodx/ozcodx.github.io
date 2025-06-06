@@ -27,9 +27,12 @@ Se ha integrado un editor HTML rico (WYSIWYG) en el formulario de creación de e
 ### Integración en BlogForm
 
 - **Campo Título**: Input de texto para el título de la entrada
-- **Campo Fecha**: Selector de fecha para establecer la fecha de publicación
-  - Por defecto muestra la fecha actual
-  - Permite seleccionar cualquier fecha pasada o futura
+- **Campo Fecha**: Selector de fecha cyberpunk personalizado
+  - **Formato día/mes/año** (dd/mm/yyyy) - formato europeo
+  - **Por defecto**: muestra la fecha actual
+  - **Calendario desplegable** completamente personalizado con tema cyberpunk
+  - **Localización en español** para nombres de meses y días
+  - **Navegación avanzada** con dropdowns de mes y año
   - La fecha se envía a la API y se almacena en la base de datos
 - **Campo Abstract**: Editor HTML simple con altura reducida (150px) para resúmenes
   - Solo herramientas básicas de formato
@@ -43,12 +46,19 @@ Se ha integrado un editor HTML rico (WYSIWYG) en el formulario de creación de e
 ## Estilos
 
 ### Tema Cyberpunk
-El editor se ha estilizado para mantener la consistencia con el tema cyberpunk del sitio:
-- Fondo oscuro con transparencia
-- Bordes verdes neón
-- Texto verde para encabezados
-- Efectos de hover y focus con glow verde
-- Toolbar con iconos blancos sobre fondo oscuro
+El editor y todos los campos se han estilizado para mantener la consistencia con el tema cyberpunk del sitio:
+- **Fondo oscuro** con transparencia (rgba(0, 0, 0, 0.7-0.8))
+- **Bordes verdes neón** con efectos de glow
+- **Texto blanco** para contenido y verde para encabezados
+- **Efectos de hover y focus** con glow verde intensificado
+- **Selector de fecha cyberpunk personalizado**:
+  - **Input**: Texto blanco sobre fondo negro con icono verde neón
+  - **Calendario desplegable**: Fondo negro con bordes verdes y efectos glow
+  - **Días**: Hover verde neón, selección con highlight brillante
+  - **Navegación**: Flechas y dropdowns con tema cyberpunk
+  - **Localización**: Nombres en español (enero, febrero, lun, mar, etc.)
+  - **Efectos**: Transiciones suaves y sombras neón
+- **Toolbar** con iconos blancos sobre fondo oscuro
 
 ### Responsive
 - Adaptación automática para dispositivos móviles
@@ -87,14 +97,19 @@ import { HtmlEditor } from './HtmlEditor';
 
 - `react-quill`: Editor WYSIWYG principal
 - `quill`: Motor del editor
-- Estilos CSS de Quill incluidos automáticamente
+- `react-datepicker`: Selector de fecha personalizable
+- `date-fns`: Utilidades de fecha y localización en español
+- Estilos CSS incluidos automáticamente
 
 ## Archivos modificados
 
 - `src/components/Admin/HtmlEditor.tsx` - Nuevo componente del editor HTML
 - `src/components/Admin/HtmlEditor.scss` - Estilos del editor HTML
-- `src/components/Admin/BlogForm.tsx` - Integración del editor y campo de fecha
-- `src/components/Admin/BlogForm.scss` - Estilos actualizados para editor y fecha
+- `src/components/Admin/CyberpunkDatePicker.tsx` - Nuevo selector de fecha personalizado
+- `src/components/Admin/CyberpunkDatePicker.scss` - Estilos del calendario cyberpunk
+- `src/components/Admin/BlogForm.tsx` - Integración del editor y selector de fecha
+- `src/components/Admin/BlogForm.scss` - Estilos actualizados (limpieza)
 - `src/services/blogService.ts` - Interfaz actualizada para incluir fecha
+- `src/utils/dateUtils.ts` - Utilidades para manejo de fechas
 - `src/types/react-quill.d.ts` - Declaraciones de tipos TypeScript
 - `package.json` - Nuevas dependencias añadidas 

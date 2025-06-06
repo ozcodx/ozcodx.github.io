@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { blogService, CreateBlogEntryRequest } from '../../services/blogService';
 import { HtmlEditor } from './HtmlEditor';
+import { CyberpunkDatePicker } from './CyberpunkDatePicker';
 import { getCurrentDateISO } from '../../utils/dateUtils';
 import './BlogForm.scss';
 
@@ -9,7 +10,7 @@ interface BlogFormData {
   abstract: string;
   content: string;
   tags: string;
-  date: string;
+  date: Date;
 }
 
 interface BlogFormProps {
@@ -22,7 +23,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
     abstract: '',
     content: '',
     tags: '',
-    date: getCurrentDateISO() // Fecha actual por defecto
+    date: new Date() // Fecha actual por defecto
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -80,7 +81,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         abstract,
         content: formData.content.trim(),
         tags,
-        date: formData.date
+        date: formData.date.toISOString().split('T')[0] // Convertir Date a string ISO
       };
 
       await blogService.createBlogEntry(blogEntry);
@@ -93,7 +94,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         abstract: '',
         content: '',
         tags: '',
-        date: getCurrentDateISO()
+        date: new Date()
       });
 
     } catch (err) {
@@ -111,7 +112,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
       abstract: '',
       content: '',
       tags: '',
-      date: getCurrentDateISO()
+      date: new Date()
     });
     setSuccess(false);
     setError(null);
@@ -137,13 +138,13 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
 
         <div className="form-group">
           <label htmlFor="date">Fecha de Publicación *</label>
-          <input
-            type="date"
-            id="date"
-            value={formData.date}
-            onChange={handleInputChange('date')}
-            required
+          <CyberpunkDatePicker
+            selected={formData.date}
+            onChange={(date) => setFormData(prev => ({ ...prev, date: date || new Date() }))}
             disabled={loading}
+            placeholder="dd/mm/yyyy"
+            id="date"
+            required
           />
           <small className="field-help">
             Esta fecha aparecerá como la fecha de publicación de la entrada en el blog.
