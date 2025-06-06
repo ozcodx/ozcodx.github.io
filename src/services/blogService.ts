@@ -17,6 +17,14 @@ export interface CreateBlogEntryRequest {
   date?: string; // Fecha opcional en formato ISO (YYYY-MM-DD)
 }
 
+export interface UpdateBlogEntryRequest {
+  title: string;
+  abstract: string;
+  content: string;
+  tags: string[];
+  date?: string; // Fecha opcional en formato ISO (YYYY-MM-DD)
+}
+
 export interface BlogApiResponse {
   id: string;
   slug: string;
@@ -184,6 +192,59 @@ class BlogService {
       return data;
     } catch (error) {
       console.error('Error creating blog entry:', error);
+      throw error;
+    }
+  }
+
+  // Actualizar una entrada de blog existente
+  async updateBlogEntry(slug: string, entry: UpdateBlogEntryRequest): Promise<BlogApiResponse> {
+    if (!this.token) {
+      throw new Error('Not authenticated');
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/ozkar/blog/${slug}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${this.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(entry),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to update blog entry: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error updating blog entry:', error);
+      throw error;
+    }
+  }
+
+  // Eliminar una entrada de blog
+  async deleteBlogEntry(slug: string): Promise<void> {
+    if (!this.token) {
+      throw new Error('Not authenticated');
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/ozkar/blog/${slug}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${this.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to delete blog entry: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error('Error deleting blog entry:', error);
       throw error;
     }
   }

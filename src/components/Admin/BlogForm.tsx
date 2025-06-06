@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { blogService, CreateBlogEntryRequest } from '../../services/blogService';
+import { useState, useEffect } from 'react';
+import { blogService, CreateBlogEntryRequest, UpdateBlogEntryRequest } from '../../services/blogService';
+import { BlogEntryType } from '../Blog/types';
 import { HtmlEditor } from './HtmlEditor';
 import { CyberpunkDatePicker } from './CyberpunkDatePicker';
 import { getCurrentDateISO } from '../../utils/dateUtils';
@@ -15,9 +16,12 @@ interface BlogFormData {
 
 interface BlogFormProps {
   onLogout: () => void;
+  editingEntry?: BlogEntryType | null;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export const BlogForm = ({ onLogout }: BlogFormProps) => {
+export const BlogForm = ({ onLogout, editingEntry, onSuccess, onCancel }: BlogFormProps) => {
   const [formData, setFormData] = useState<BlogFormData>({
     title: '',
     abstract: '',
@@ -28,6 +32,32 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isEditing = !!editingEntry;
+
+  // Cargar datos de la entrada si estamos editando
+  useEffect(() => {
+    if (editingEntry) {
+      setFormData({
+        title: editingEntry.title,
+        abstract: editingEntry.abstract,
+        content: editingEntry.content,
+        tags: editingEntry.tags.join(', '),
+        date: new Date(editingEntry.date)
+      });
+    } else {
+      // Limpiar formulario si no estamos editando
+      setFormData({
+        title: '',
+        abstract: '',
+        content: '',
+        tags: '',
+        date: new Date()
+      });
+    }
+    setSuccess(false);
+    setError(null);
+  }, [editingEntry]);
 
   const handleInputChange = (field: keyof BlogFormData) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,9 +90,6 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         throw new Error('El contenido es requerido');
       }
 
-      // Generar slug automáticamente
-      const slug = blogService.generateSlug(formData.title);
-
       // Procesar tags
       const tags = formData.tags
         .split(',')
@@ -75,20 +102,72 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         abstract = `<p>Resumen de: ${formData.title.trim()}</p>`;
       }
 
-      const blogEntry: CreateBlogEntryRequest = {
-        slug,
-        title: formData.title.trim(),
-        abstract,
-        content: formData.content.trim(),
-        tags,
-        date: formData.date.toISOString().split('T')[0] // Convertir Date a string ISO
-      };
+      if (isEditing && editingEntry) {
+        // Actualizar entrada existente
+        const updateData: UpdateBlogEntryRequest = {
+          title: formData.title.trim(),
+          abstract,
+          content: formData.content.trim(),
+          tags,
+          date: formData.date.toISOString().split('T')[0]
+        };
 
-      await blogService.createBlogEntry(blogEntry);
+        await blogService.updateBlogEntry(editingEntry.id, updateData);
+      } else {
+        // Crear nueva entrada
+        const slug = blogService.generateSlug(formData.title);
+        const createData: CreateBlogEntryRequest = {
+          slug,
+          title: formData.title.trim(),
+          abstract,
+          content: formData.content.trim(),
+          tags,
+          date: formData.date.toISOString().split('T')[0]
+        };
+
+        await blogService.createBlogEntry(createData);
+      }
       
       setSuccess(true);
       
-      // Limpiar formulario después del éxito
+      // Llamar callback de éxito si existe
+      if (onSuccess) {
+        setTimeout(() => {
+          onSuccess();
+        }, 1500); // Dar tiempo para mostrar el mensaje de éxito
+      } else if (!isEditing) {
+        // Solo limpiar formulario si estamos creando (no editando)
+        setFormData({
+          title: '',
+          abstract: '',
+          content: '',
+          tags: '',
+          date: new Date()
+        });
+      }
+
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 
+        isEditing ? 'Error al actualizar la entrada' : 'Error al crear la entrada';
+      setError(errorMessage);
+      console.error('Error with blog entry:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    if (isEditing && editingEntry) {
+      // Si estamos editando, restaurar datos originales
+      setFormData({
+        title: editingEntry.title,
+        abstract: editingEntry.abstract,
+        content: editingEntry.content,
+        tags: editingEntry.tags.join(', '),
+        date: new Date(editingEntry.date)
+      });
+    } else {
+      // Si estamos creando, limpiar formulario
       setFormData({
         title: '',
         abstract: '',
@@ -96,31 +175,26 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
         tags: '',
         date: new Date()
       });
-
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error al crear la entrada';
-      setError(errorMessage);
-      console.error('Error creating blog entry:', err);
-    } finally {
-      setLoading(false);
     }
-  };
-
-  const handleReset = () => {
-    setFormData({
-      title: '',
-      abstract: '',
-      content: '',
-      tags: '',
-      date: new Date()
-    });
     setSuccess(false);
     setError(null);
   };
 
   return (
     <div className="blog-form-container">
-      <h2>Crear Nueva Entrada de Blog</h2>
+      <div className="form-header">
+        <h2>{isEditing ? 'Editar Entrada de Blog' : 'Crear Nueva Entrada de Blog'}</h2>
+        {onCancel && (
+          <button 
+            type="button" 
+            className="back-button"
+            onClick={onCancel}
+            disabled={loading}
+          >
+            ← Volver a la Lista
+          </button>
+        )}
+      </div>
       
       <form onSubmit={handleSubmit} className="blog-form">
         <div className="form-group">
@@ -194,7 +268,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
 
         {success && (
           <div className="success-message">
-            ¡Entrada creada exitosamente!
+            {isEditing ? '¡Entrada actualizada exitosamente!' : '¡Entrada creada exitosamente!'}
           </div>
         )}
 
@@ -204,7 +278,10 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
             className="submit-button"
             disabled={loading}
           >
-            {loading ? 'Creando...' : 'Crear Entrada'}
+            {loading ? 
+              (isEditing ? 'Actualizando...' : 'Creando...') : 
+              (isEditing ? 'Actualizar Entrada' : 'Crear Entrada')
+            }
           </button>
           
           <button 
@@ -213,7 +290,7 @@ export const BlogForm = ({ onLogout }: BlogFormProps) => {
             onClick={handleReset}
             disabled={loading}
           >
-            Limpiar
+            {isEditing ? 'Restaurar' : 'Limpiar'}
           </button>
 
           <button 

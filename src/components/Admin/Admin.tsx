@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { blogService } from '../../services/blogService';
 import { Login } from './Login';
-import { BlogForm } from './BlogForm';
+import { BlogDashboard } from './BlogDashboard';
 import './Admin.scss';
 
 export const Admin = () => {
@@ -54,10 +54,8 @@ export const Admin = () => {
 
   return (
     <div className="admin-container">
-
-      
       <main className="admin-content">
-        <BlogForm onLogout={handleLogout} />
+        <BlogDashboard onLogout={handleLogout} />
       </main>
     </div>
   );
