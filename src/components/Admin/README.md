@@ -32,7 +32,7 @@ Se ha integrado un editor HTML rico (WYSIWYG) en el formulario de creación de e
   - **Por defecto**: muestra la fecha actual
   - **Calendario desplegable** completamente personalizado con tema cyberpunk
   - **Localización en español** para nombres de meses y días
-  - **Navegación avanzada** con dropdowns de mes y año
+  - **Navegación simplificada** con flechas de mes/año (dropdowns ocultos)
   - La fecha se envía a la API y se almacena en la base de datos
 - **Campo Abstract**: Editor HTML simple con altura reducida (150px) para resúmenes
   - Solo herramientas básicas de formato
@@ -55,7 +55,7 @@ El editor y todos los campos se han estilizado para mantener la consistencia con
   - **Input**: Texto blanco sobre fondo negro con icono verde neón
   - **Calendario desplegable**: Fondo negro con bordes verdes y efectos glow
   - **Días**: Hover verde neón, selección con highlight brillante
-  - **Navegación**: Flechas y dropdowns con tema cyberpunk
+  - **Navegación**: Flechas verdes para cambiar mes/año (interfaz simplificada)
   - **Localización**: Nombres en español (enero, febrero, lun, mar, etc.)
   - **Efectos**: Transiciones suaves y sombras neón
 - **Toolbar** con iconos blancos sobre fondo oscuro

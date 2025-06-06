@@ -74,11 +74,7 @@ export const CyberpunkDatePicker = ({
         monthClassName={(date) => "cyberpunk-month"}
         timeClassName={(date) => "cyberpunk-time"}
         locale="es"
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        yearDropdownItemNumber={100}
-        scrollableYearDropdown
+        // Dropdowns deshabilitados para simplificar la interfaz
       />
     </div>
   );
