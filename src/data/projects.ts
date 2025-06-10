@@ -15,7 +15,7 @@ export interface Project {
 export const projects: Record<string, Project> = {
   "EMM4aX9bN2cP5qR8tY1z": {
     "id": "EMM4aX9bN2cP5qR8tY1z",
-    "titulo": "Emma - Interfaz de Chat para Ollama",
+    "titulo": "Emma - Chatbot IA local",
     "descripcion": "Emma es una interfaz de chat en Python diseñada para interactuar con Ollama, específicamente optimizada para el modelo gemma3:1b. Esta interfaz proporciona una manera eficiente de administrar interacciones con Ollama, contextos de conversación, memoria de chat, configuraciones personalizadas, personalidades para el asistente e historial de conversaciones. Incluye múltiples personalidades predefinidas y un sistema de memoria avanzado para conversaciones más coherentes.",
     "tecnologias": [
       { "name": "Python", "icon": "fa-brands fa-python" },
