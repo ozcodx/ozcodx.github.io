@@ -13,6 +13,51 @@ export interface Project {
 }
 
 export const projects: Record<string, Project> = {
+  "EMM4aX9bN2cP5qR8tY1z": {
+    "id": "EMM4aX9bN2cP5qR8tY1z",
+    "titulo": "Emma - Interfaz de Chat para Ollama",
+    "descripcion": "Emma es una interfaz de chat en Python diseñada para interactuar con Ollama, específicamente optimizada para el modelo gemma3:1b. Esta interfaz proporciona una manera eficiente de administrar interacciones con Ollama, contextos de conversación, memoria de chat, configuraciones personalizadas, personalidades para el asistente e historial de conversaciones. Incluye múltiples personalidades predefinidas y un sistema de memoria avanzado para conversaciones más coherentes.",
+    "tecnologias": [
+      { "name": "Python", "icon": "fa-brands fa-python" },
+      { "name": "Ollama", "icon": "fa-solid fa-robot" },
+      { "name": "AI/ML", "icon": "fa-solid fa-brain" },
+      { "name": "CLI", "icon": "fa-solid fa-terminal" },
+      { "name": "YAML", "icon": "fa-solid fa-file-code" }
+    ],
+    "caracteristicas": [
+      "Interfaz de línea de comandos intuitiva y amigable",
+      "Múltiples personalidades predefinidas (Técnica, Creativa, Concisa, etc.)",
+      "Sistema de memoria a largo plazo con búsqueda contextual",
+      "Gestión completa de conversaciones y historial",
+      "Configuración flexible de parámetros del modelo",
+      "Soporte para diferentes modelos de Ollama",
+      "Comandos especiales integrados para gestión avanzada"
+    ],
+    "imagen": "proyecto7.png",
+    "url": "https://github.com/ozkar-co/Emma",
+    "fecha": "2025-01-10T05:00:00.000Z"
+  },
+  "ASH7wK3mN9xP2qR5tY8z": {
+    "id": "ASH7wK3mN9xP2qR5tY8z",
+    "titulo": "Ashwake",
+    "descripcion": "Ashwake es un juego de supervivencia RPG sandbox ambientado en las desoladas secuelas de una era olvidada. En un mundo donde Velrot, una corrupción desconocida e insidiosa, ha retorcido la tierra y la vida misma, despiertas solo como una Unidad Amnesis, un recipiente biomecánico sin memoria ni pasado. Sin guía, ciudades o otros seres conscientes, tu camino es tuyo. Explora, sobrevive y descubre la verdad enterrada bajo ruinas y tiempo.",
+    "tecnologias": [
+      { "name": "Lua", "icon": "fa-solid fa-code" },
+      { "name": "Luanti Engine", "icon": "fa-solid fa-gamepad" },
+      { "name": "Voxel", "icon": "fa-solid fa-cube" },
+      { "name": "Game Development", "icon": "fa-solid fa-puzzle-piece" }
+    ],
+    "caracteristicas": [
+      "Supervivencia impulsada por exploración en mundo abierto",
+      "Sistema de progresión alquímica complejo",
+      "Entidades elementales nocturnas corruptas por Velrot",
+      "Recuperación y reconstrucción de artefactos antiguos",
+      "Viaje dimensional a través de portales misteriosos"
+    ],
+    "imagen": "proyecto6.png",
+    "url": "https://github.com/ozkar-co/ashwake",
+    "fecha": "2025-01-15T05:00:00.000Z"
+  },
   "LUjsG4lANB3gyA48GTfg": {
     "id": "LUjsG4lANB3gyA48GTfg",
     "titulo": "Juegos Geográficos",
